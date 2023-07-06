@@ -20,6 +20,7 @@ public class User {
   @NotBlank(message = "Name is required")
   private String full_name;
 
+//  Will work on encryption later
   @NotBlank(message = "Password is required")
   private String password;
 }
