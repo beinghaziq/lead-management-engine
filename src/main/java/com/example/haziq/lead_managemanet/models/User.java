@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +36,10 @@ public class User {
   @JoinColumn(name = "role_id", referencedColumnName = "id")
   private Role role;
 
+//  Should be moved out of this(Repository or Service)
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
   @ManyToMany
   @JoinTable(
           name = "assignee_phases",
@@ -49,4 +55,13 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "project_id")
   )
   private List<Phase> projects;
+
+  public void setPassword(String password) {
+    this.password = passwordEncoder.encode(password);
+  }
+
+  public String  getPassword() {
+    return this.password;
+  }
+
 }
