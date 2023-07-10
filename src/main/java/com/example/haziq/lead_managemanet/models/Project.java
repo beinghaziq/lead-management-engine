@@ -6,9 +6,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "projects")
-public class Project {
+public class Project extends Commentable {
   @Id
   @GeneratedValue
   private Integer id;
@@ -26,4 +28,7 @@ public class Project {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "lead_id", referencedColumnName = "id")
   private Lead lead;
+
+  @OneToMany(mappedBy = "relatedEntity", cascade = CascadeType.ALL)
+  private List<Comment> comments = new ArrayList<>();
 }
