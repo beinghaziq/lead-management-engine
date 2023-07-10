@@ -38,7 +38,7 @@ public class User {
 
 //  Should be moved out of this(Repository or Service)
   @Autowired
-  private PasswordEncoder passwordEncoder;
+//  private PasswordEncoder passwordEncoder;
 
   @ManyToMany
   @JoinTable(
@@ -57,7 +57,7 @@ public class User {
   private List<Phase> projects;
 
   public void setPassword(String password) {
-    this.password = passwordEncoder.encode(password);
+//    this.password = passwordEncoder.encode(password);
   }
 
   public String  getPassword() {
