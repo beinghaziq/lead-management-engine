@@ -11,9 +11,6 @@ import java.util.List;
 
 @Entity(name = "projects")
 public class Project extends Commentable {
-  @Id
-  @GeneratedValue
-  private Integer id;
   @NotBlank(message = "Name is required")
   private String name;
   @Column(updatable = false)
@@ -29,6 +26,6 @@ public class Project extends Commentable {
   @JoinColumn(name = "lead_id", referencedColumnName = "id")
   private Lead lead;
 
-  @OneToMany(mappedBy = "relatedEntity", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "commentable", cascade = CascadeType.ALL)
   private List<Comment> comments = new ArrayList<>();
 }

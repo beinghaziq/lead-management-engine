@@ -1,13 +1,9 @@
 package com.example.haziq.lead_managemanet.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.w3c.dom.Text;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +17,9 @@ public class ClientDetails {
   @NotBlank(message = "Number is required")
   private String contact_number;
   @NotBlank(message = "Address is required")
-  private Text address;
+  @Lob
+  @Column(columnDefinition = "TEXT")
+  private String address;
   @Column(updatable = false)
   @CreationTimestamp
   private LocalDateTime created_at;

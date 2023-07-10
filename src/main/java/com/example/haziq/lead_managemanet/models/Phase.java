@@ -11,10 +11,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity(name = "phases")
 public class Phase extends Commentable {
-  @Id
-  @GeneratedValue
-  private Integer id;
   @FutureOrPresent(message = "Start date must be in future")
   private LocalDate start_date;
   @Future(message = "Due date must be in future")
@@ -24,6 +22,6 @@ public class Phase extends Commentable {
   private LocalDateTime created_at;
   @UpdateTimestamp
   private LocalDateTime updated_at;
-  @OneToMany(mappedBy = "relatedEntity", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "commentable", cascade = CascadeType.ALL)
   private List<Comment> comments = new ArrayList<>();
 }
