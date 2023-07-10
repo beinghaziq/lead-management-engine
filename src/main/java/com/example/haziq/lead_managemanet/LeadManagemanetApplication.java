@@ -9,5 +9,4 @@ public class LeadManagemanetApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LeadManagemanetApplication.class, args);
 	}
-
 }

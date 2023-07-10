@@ -1,9 +1,11 @@
 package com.example.haziq.lead_managemanet.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity(name = "leads")
 public class Lead {
@@ -16,4 +18,16 @@ public class Lead {
   private String test_type;
   @NotBlank(message = "Platform is required")
   private String platform_used;
+  @Column(updatable = false)
+  @CreationTimestamp
+  private LocalDateTime created_at;
+  @UpdateTimestamp
+  private LocalDateTime updated_at;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "client_details_id", referencedColumnName = "id")
+  private ClientDetails clientDetails;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "creator_id", referencedColumnName = "id")
+  private User creator;
 }
