@@ -1,9 +1,6 @@
 package com.example.haziq.lead_managemanet.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,4 +29,7 @@ public class User {
   private LocalDateTime created_at;
   @UpdateTimestamp
   private LocalDateTime updated_at;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "role_id", referencedColumnName = "id")
+  private Role role;
 }
