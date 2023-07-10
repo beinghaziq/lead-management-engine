@@ -26,4 +26,8 @@ public class Lead {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "client_details_id", referencedColumnName = "id")
   private ClientDetails clientDetails;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "creator_id", referencedColumnName = "id")
+  private User creator;
 }

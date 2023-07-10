@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "users")
 public class User {
@@ -32,4 +33,20 @@ public class User {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "role_id", referencedColumnName = "id")
   private Role role;
+
+  @ManyToMany
+  @JoinTable(
+          name = "assignee_phases",
+          joinColumns = @JoinColumn(name = "assignee_id"),
+          inverseJoinColumns = @JoinColumn(name = "phase_id")
+  )
+  private List<Phase> phases;
+
+  @ManyToMany
+  @JoinTable(
+          name = "assignee_projects",
+          joinColumns = @JoinColumn(name = "assignee_id"),
+          inverseJoinColumns = @JoinColumn(name = "project_id")
+  )
+  private List<Phase> projects;
 }

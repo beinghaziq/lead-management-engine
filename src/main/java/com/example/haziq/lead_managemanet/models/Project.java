@@ -32,4 +32,7 @@ public class Project extends Commentable {
   @OneToOne(optional = true)
   @JoinColumn(name = "manager_id", referencedColumnName = "id")
   private User manager;
+
+  @ManyToMany(mappedBy = "projects")
+  private List<User> assignees;
 }

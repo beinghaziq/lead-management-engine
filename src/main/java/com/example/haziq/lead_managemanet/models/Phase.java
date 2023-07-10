@@ -28,4 +28,7 @@ public class Phase extends Commentable {
   @OneToOne(optional = true)
   @JoinColumn(name = "manager_id", referencedColumnName = "id")
   private User manager;
+
+  @ManyToMany(mappedBy = "phases")
+  private List<User> assignees;
 }
