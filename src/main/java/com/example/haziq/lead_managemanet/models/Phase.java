@@ -24,4 +24,8 @@ public class Phase extends Commentable {
   private LocalDateTime updated_at;
   @OneToMany(mappedBy = "commentable", cascade = CascadeType.ALL)
   private List<Comment> comments = new ArrayList<>();
+
+  @OneToOne(optional = true)
+  @JoinColumn(name = "manager_id", referencedColumnName = "id")
+  private User manager;
 }

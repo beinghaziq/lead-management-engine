@@ -28,4 +28,8 @@ public class Project extends Commentable {
 
   @OneToMany(mappedBy = "commentable", cascade = CascadeType.ALL)
   private List<Comment> comments = new ArrayList<>();
+
+  @OneToOne(optional = true)
+  @JoinColumn(name = "manager_id", referencedColumnName = "id")
+  private User manager;
 }
