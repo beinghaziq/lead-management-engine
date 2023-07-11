@@ -64,4 +64,79 @@ public class User {
     return this.password;
   }
 
+  public User(Integer id, String email, String full_name, String password, LocalDateTime created_at, LocalDateTime updated_at, Role role, List<Phase> phases, List<Phase> projects) {
+    this.id = id;
+    this.email = email;
+    this.full_name = full_name;
+    this.password = password;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
+    this.role = role;
+    this.phases = phases;
+    this.projects = projects;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getFull_name() {
+    return full_name;
+  }
+
+  public void setFull_name(String full_name) {
+    this.full_name = full_name;
+  }
+
+  public LocalDateTime getCreated_at() {
+    return created_at;
+  }
+
+  public void setCreated_at(LocalDateTime created_at) {
+    this.created_at = created_at;
+  }
+
+  public LocalDateTime getUpdated_at() {
+    return updated_at;
+  }
+
+  public void setUpdated_at(LocalDateTime updated_at) {
+    this.updated_at = updated_at;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
+
+  public List<Phase> getPhases() {
+    return phases;
+  }
+
+  public void setPhases(List<Phase> phases) {
+    this.phases = phases;
+  }
+
+  public List<Phase> getProjects() {
+    return projects;
+  }
+
+  public void setProjects(List<Phase> projects) {
+    this.projects = projects;
+  }
 }
