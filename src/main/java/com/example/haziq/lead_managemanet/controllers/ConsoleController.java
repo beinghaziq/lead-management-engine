@@ -1,5 +1,6 @@
 package com.example.haziq.lead_managemanet.controllers;
 
+import com.example.haziq.lead_managemanet.enums.RoleName;
 import com.example.haziq.lead_managemanet.models.Role;
 import com.example.haziq.lead_managemanet.repositories.RoleRepository;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ public class ConsoleController {
     @GetMapping(path = "/console")
     public Role get() {
       Optional<Role> role = repository.findByName(SuperAdmin);
+      RoleName enumValue = RoleName.valueOf("SuperAdmin");
+      System.out.println(enumValue);
       return role.get();
     }
 }
