@@ -21,9 +21,9 @@ public class Role {
   @UpdateTimestamp
   private LocalDateTime updated_at;
 
-
   public Role() {
   }
+
   public Role(Integer id, RoleName name, LocalDateTime created_at, LocalDateTime updated_at) {
     this.id = id;
     this.name = name;
