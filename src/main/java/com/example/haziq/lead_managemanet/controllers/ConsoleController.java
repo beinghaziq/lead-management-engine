@@ -22,5 +22,4 @@ public class ConsoleController {
       Optional<Role> role = repository.findByName(SuperAdmin);
       return role.get();
     }
-
 }
