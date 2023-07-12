@@ -30,4 +30,79 @@ public class Lead {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "creator_id", referencedColumnName = "id")
   private User creator;
+
+  public Lead(Integer id, String name, String test_type, String platform_used, LocalDateTime created_at, LocalDateTime updated_at, ClientDetails clientDetails, User creator) {
+    this.id = id;
+    this.name = name;
+    this.test_type = test_type;
+    this.platform_used = platform_used;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
+    this.clientDetails = clientDetails;
+    this.creator = creator;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getTest_type() {
+    return test_type;
+  }
+
+  public void setTest_type(String test_type) {
+    this.test_type = test_type;
+  }
+
+  public String getPlatform_used() {
+    return platform_used;
+  }
+
+  public void setPlatform_used(String platform_used) {
+    this.platform_used = platform_used;
+  }
+
+  public LocalDateTime getCreated_at() {
+    return created_at;
+  }
+
+  public void setCreated_at(LocalDateTime created_at) {
+    this.created_at = created_at;
+  }
+
+  public LocalDateTime getUpdated_at() {
+    return updated_at;
+  }
+
+  public void setUpdated_at(LocalDateTime updated_at) {
+    this.updated_at = updated_at;
+  }
+
+  public ClientDetails getClientDetails() {
+    return clientDetails;
+  }
+
+  public void setClientDetails(ClientDetails clientDetails) {
+    this.clientDetails = clientDetails;
+  }
+
+  public User getCreator() {
+    return creator;
+  }
+
+  public void setCreator(User creator) {
+    this.creator = creator;
+  }
 }
