@@ -1,8 +1,12 @@
 package com.example.haziq.lead_managemanet.adapters;
 
+import com.example.haziq.lead_managemanet.enums.RoleName;
+import com.example.haziq.lead_managemanet.models.Role;
 import com.example.haziq.lead_managemanet.models.User;
 import com.example.haziq.lead_managemanet.repositories.RoleRepository;
 import com.example.haziq.lead_managemanet.repositories.UserRepository;
+
+import java.util.Optional;
 
 public class UserAdapter {
   private final UserRepository user_repository;
@@ -17,7 +21,13 @@ public class UserAdapter {
     this.role_name = role_name;
   }
 
-  public void create_user_with_role(){
-    System.out.println("herte");
+  public User create_user_with_role() {
+    RoleName enumValue = RoleName.valueOf(role_name);
+    Optional<Role> role = role_repository.findByName(enumValue);
+    System.out.println(enumValue);
+    user.setRole(role.get());
+    user.setPassword(user.getPassword());
+    user_repository.save(user);
+    return user;
   }
 }
