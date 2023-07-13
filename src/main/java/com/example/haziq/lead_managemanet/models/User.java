@@ -32,8 +32,7 @@ public class User {
   private LocalDateTime created_at;
   @UpdateTimestamp
   private LocalDateTime updated_at;
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "role_id", referencedColumnName = "id")
+  @ManyToOne(fetch = FetchType.LAZY)
   private Role role;
 
 //  Should be moved out of this(Repository or Service)
