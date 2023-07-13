@@ -24,7 +24,6 @@ public class UserAdapter {
   public User create_user_with_role() {
     RoleName enumValue = RoleName.valueOf(role_name);
     Optional<Role> role = role_repository.findByName(enumValue);
-    System.out.println(enumValue);
     user.setRole(role.get());
     user.setPassword(user.getPassword());
     user_repository.save(user);
