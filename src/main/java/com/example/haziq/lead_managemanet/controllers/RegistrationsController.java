@@ -25,13 +25,10 @@ public class RegistrationsController {
   @PostMapping(path = "/users")
   public User create(@RequestBody User user, @RequestParam(required = false) String rollName, HttpServletResponse response) {
     UserAdapter adapter = new UserAdapter(repository, role_repository, user, rollName, passwordEncoder);
-    Cookie cookie = new Cookie("username", "Jovan");
-    cookie.setHttpOnly(true);
-        System.out.println(user.getPassword());
-    System.out.println(passwordEncoder.encode("32123"));
-    //add cookie to response
-    response.addCookie(cookie);
     User created_user = adapter.create_user_with_role();
+    Cookie cookie = new Cookie("HTTP-X-AUTH-TOKEN", created_user.getAuth_token());
+    cookie.setHttpOnly(true);
+    response.addCookie(cookie);
     return created_user;
   }
 }
