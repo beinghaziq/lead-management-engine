@@ -36,10 +36,6 @@ public class User {
   private Role role;
   private String auth_token;
 
-//  Should be moved out of this(Repository or Service)
-  @Autowired
-//  private PasswordEncoder passwordEncoder;
-
   @ManyToMany
   @JoinTable(
           name = "assignee_phases",
