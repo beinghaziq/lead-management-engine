@@ -2,14 +2,15 @@ package com.example.haziq.lead_managemanet.models;
 
 import com.example.haziq.lead_managemanet.enums.RoleName;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "roles")
-public class Role {
+public class  Role {
   @Id
   @GeneratedValue
   private Integer id;
@@ -20,6 +21,10 @@ public class Role {
   private LocalDateTime created_at;
   @UpdateTimestamp
   private LocalDateTime updated_at;
+
+  @OneToMany(mappedBy = "role")
+  private List<User> users;
+
 
   public Role() {
   }

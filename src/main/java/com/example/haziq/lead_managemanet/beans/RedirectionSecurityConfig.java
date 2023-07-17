@@ -11,7 +11,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class RedirectionSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.authorizeRequests().requestMatchers("/").permitAll();
+    http.csrf(csrf -> csrf.disable());
+    http.authorizeRequests().requestMatchers("/**").permitAll();
 
     return http.build();
   }
