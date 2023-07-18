@@ -2,6 +2,7 @@ package com.example.haziq.lead_managemanet.controllers;
 
 import com.example.haziq.lead_managemanet.models.User;
 import com.example.haziq.lead_managemanet.repositories.RoleRepository;
+import com.example.haziq.lead_managemanet.repositories.UserRepository;
 import com.example.haziq.lead_managemanet.responses.MessageResponse;
 import com.example.haziq.lead_managemanet.services.AuthenticationService;
 import jakarta.servlet.http.Cookie;
@@ -40,7 +41,7 @@ public class SessionsController {
 
   @DeleteMapping(path = "/logout")
   public ResponseEntity<MessageResponse> destroy(@RequestParam String email, HttpServletResponse response) {
-    User loggedUser = repository.findByEmail(user.getEmail());
+    User loggedUser = repository.findByEmail(email);
     AuthenticationService service = new AuthenticationService(passwordEncoder);
     loggedUser.setAuth_token(UUID.randomUUID().toString());
     repository.save(loggedUser);
