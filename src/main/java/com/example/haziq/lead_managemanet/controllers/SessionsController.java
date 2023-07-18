@@ -1,22 +1,19 @@
 package com.example.haziq.lead_managemanet.controllers;
 
 import com.example.haziq.lead_managemanet.models.User;
-import com.example.haziq.lead_managemanet.repositories.RoleRepository;
 import com.example.haziq.lead_managemanet.repositories.UserRepository;
-import com.example.haziq.lead_managemanet.responses.MessageResponse;
 import com.example.haziq.lead_managemanet.services.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
+@RestController
 public class SessionsController {
   private UserRepository repository;
   private PasswordEncoder passwordEncoder;
@@ -27,35 +24,39 @@ public class SessionsController {
   }
   @PostMapping(path = "/login")
   public User create(@RequestBody User user, HttpServletResponse response) {
-    User loggedUser = repository.findByEmail(user.getEmail());
+    Optional<User> loggedUser = Optional.ofNullable(repository.findByEmail(user.getEmail()));
     AuthenticationService service = new AuthenticationService(passwordEncoder);
-    loggedUser.setAuth_token(UUID.randomUUID().toString());
-    repository.save(loggedUser);
-    boolean is_valid = service.isValidPassword(user.getPassword(), loggedUser.getPassword());
+    if (loggedUser.isPresent()) {
 
-    Cookie cookie = new Cookie("HTTP-X-AUTH-TOKEN", loggedUser.getAuth_token());
-    cookie.setHttpOnly(true);
-    response.addCookie(cookie);
-    return user;
+    loggedUser.get().setAuth_token(UUID.randomUUID().toString());
+    repository.save(loggedUser.get());
+    boolean is_valid = service.isValidPassword(user.getPassword(), loggedUser.get().getPassword());
+    System.out.println(is_valid);
+//    if (is_valid == true) {
+      Cookie cookie = new Cookie("HTTP-X-AUTH-TOKEN", loggedUser.get().getAuth_token());
+      cookie.setHttpOnly(true);
+      response.addCookie(cookie);
+      System.out.println("Here");
+      return loggedUser.get();
+//    }
+//    Will handle exceptions in next PR
+//    return loggedUser;
+
+    }
+    return loggedUser.get();
   }
 
-  @DeleteMapping(path = "/logout")
-  public ResponseEntity<MessageResponse> destroy(@RequestParam String email, HttpServletResponse response) {
-    User loggedUser = repository.findByEmail(email);
-    AuthenticationService service = new AuthenticationService(passwordEncoder);
-    loggedUser.setAuth_token(UUID.randomUUID().toString());
-    repository.save(loggedUser);
-    boolean is_valid = service.isValidPassword(user.getPassword(), loggedUser.getPassword());
-
+  @DeleteMapping("/api/logout")
+  public ResponseEntity destroy(@RequestParam String email, HttpServletResponse response) {
+    Optional<User> loggedUser = Optional.ofNullable(repository.findByEmail(email));
+    loggedUser.get().setAuth_token(null);
+    repository.save(loggedUser.get());
     Cookie cookie = new Cookie("HTTP-X-AUTH-TOKEN", null);
     cookie.setMaxAge(0);
     cookie.setSecure(true);
     cookie.setHttpOnly(true);
     cookie.setPath("/");
-
-//add cookie to response
     response.addCookie(cookie);
-    MessageResponse message = new MessageResponse("User logged out successfully");
-    return ResponseEntity.status(HttpStatus.OK).body(message);
+    return ResponseEntity.status(HttpStatus.OK).body("User logged out successfully");
   }
 }

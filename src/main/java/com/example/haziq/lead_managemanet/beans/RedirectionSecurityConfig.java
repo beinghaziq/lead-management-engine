@@ -12,7 +12,7 @@ public class RedirectionSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable());
-    http.authorizeRequests().requestMatchers("/**").permitAll();
+    http.authorizeRequests().anyRequest().permitAll();;
 
     return http.build();
   }

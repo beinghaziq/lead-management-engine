@@ -4,6 +4,7 @@ import com.example.haziq.lead_managemanet.adapters.UserAdapter;
 import com.example.haziq.lead_managemanet.models.User;
 import com.example.haziq.lead_managemanet.repositories.RoleRepository;
 import com.example.haziq.lead_managemanet.repositories.UserRepository;
+import com.example.haziq.lead_managemanet.services.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 public class RegistrationsController {
@@ -31,4 +34,22 @@ public class RegistrationsController {
     response.addCookie(cookie);
     return created_user;
   }
+
+//    @PostMapping(path = "/login")
+//  public User create(@RequestBody User user, HttpServletResponse response) {
+//    System.out.println("sdasd");
+//    User loggedUser = repository.findByEmail(user.getEmail());
+//    AuthenticationService service = new AuthenticationService(passwordEncoder);
+//    loggedUser.setAuth_token(UUID.randomUUID().toString());
+//    repository.save(loggedUser);
+//    boolean is_valid = service.isValidPassword(user.getPassword(), loggedUser.getPassword());
+//    if (is_valid == true) {
+//      Cookie cookie = new Cookie("HTTP-X-AUTH-TOKEN", loggedUser.getAuth_token());
+//      cookie.setHttpOnly(true);
+//      response.addCookie(cookie);
+//      return loggedUser;
+//    }
+////    Will handle exceptions in next PR
+//    return loggedUser;
+//  }
 }
