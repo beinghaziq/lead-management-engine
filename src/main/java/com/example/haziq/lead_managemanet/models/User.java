@@ -34,10 +34,7 @@ public class User {
   private LocalDateTime updated_at;
   @ManyToOne(fetch = FetchType.LAZY)
   private Role role;
-
-//  Should be moved out of this(Repository or Service)
-  @Autowired
-//  private PasswordEncoder passwordEncoder;
+  private String auth_token;
 
   @ManyToMany
   @JoinTable(
@@ -56,14 +53,15 @@ public class User {
   private List<Phase> projects;
 
   public void setPassword(String password) {
-//    this.password = passwordEncoder.encode(password);
+    this.password = password;
   }
 
   public String  getPassword() {
     return this.password;
   }
 
-  public User(Integer id, String email, String full_name, String password, LocalDateTime created_at, LocalDateTime updated_at, Role role, List<Phase> phases, List<Phase> projects) {
+  public User(Integer id, String email, String full_name, String auth_token,
+              String password, LocalDateTime created_at, LocalDateTime updated_at, Role role, List<Phase> phases, List<Phase> projects) {
     this.id = id;
     this.email = email;
     this.full_name = full_name;
@@ -73,6 +71,15 @@ public class User {
     this.role = role;
     this.phases = phases;
     this.projects = projects;
+    this.auth_token = auth_token;
+  }
+
+  public String getAuth_token() {
+    return auth_token;
+  }
+
+  public void setAuth_token(String auth_token) {
+    this.auth_token = auth_token;
   }
 
   public Integer getId() {
