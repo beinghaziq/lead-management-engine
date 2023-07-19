@@ -11,6 +11,6 @@ public class AuthenticationService {
   }
   public boolean isValidPassword(String password, String user_password) {
       return passwordEncoder.matches(password, user_password);
-    }
   }
+}
 
