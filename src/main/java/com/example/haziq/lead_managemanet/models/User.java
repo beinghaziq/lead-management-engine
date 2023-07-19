@@ -60,6 +60,7 @@ public class User {
     return this.password;
   }
 
+  public User() {}
   public User(Integer id, String email, String full_name, String auth_token,
               String password, LocalDateTime created_at, LocalDateTime updated_at, Role role, List<Phase> phases, List<Phase> projects) {
     this.id = id;
