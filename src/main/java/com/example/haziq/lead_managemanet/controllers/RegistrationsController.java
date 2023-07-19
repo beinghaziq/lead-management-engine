@@ -34,22 +34,4 @@ public class RegistrationsController {
     response.addCookie(cookie);
     return created_user;
   }
-
-//    @PostMapping(path = "/login")
-//  public User create(@RequestBody User user, HttpServletResponse response) {
-//    System.out.println("sdasd");
-//    User loggedUser = repository.findByEmail(user.getEmail());
-//    AuthenticationService service = new AuthenticationService(passwordEncoder);
-//    loggedUser.setAuth_token(UUID.randomUUID().toString());
-//    repository.save(loggedUser);
-//    boolean is_valid = service.isValidPassword(user.getPassword(), loggedUser.getPassword());
-//    if (is_valid == true) {
-//      Cookie cookie = new Cookie("HTTP-X-AUTH-TOKEN", loggedUser.getAuth_token());
-//      cookie.setHttpOnly(true);
-//      response.addCookie(cookie);
-//      return loggedUser;
-//    }
-////    Will handle exceptions in next PR
-//    return loggedUser;
-//  }
 }
