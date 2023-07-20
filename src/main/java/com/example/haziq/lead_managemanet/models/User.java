@@ -1,5 +1,6 @@
 package com.example.haziq.lead_managemanet.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -32,7 +33,7 @@ public class User {
   private LocalDateTime created_at;
   @UpdateTimestamp
   private LocalDateTime updated_at;
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   private Role role;
   private String auth_token;
 
@@ -58,6 +59,10 @@ public class User {
 
   public String  getPassword() {
     return this.password;
+  }
+
+  public User() {
+
   }
 
   public User(Integer id, String email, String full_name, String auth_token,
