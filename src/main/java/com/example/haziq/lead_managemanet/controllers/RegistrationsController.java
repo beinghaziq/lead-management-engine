@@ -4,6 +4,7 @@ import com.example.haziq.lead_managemanet.adapters.UserAdapter;
 import com.example.haziq.lead_managemanet.models.User;
 import com.example.haziq.lead_managemanet.repositories.RoleRepository;
 import com.example.haziq.lead_managemanet.repositories.UserRepository;
+import com.example.haziq.lead_managemanet.services.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 public class RegistrationsController {
