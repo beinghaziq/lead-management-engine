@@ -1,5 +1,6 @@
 package com.example.haziq.lead_managemanet.controllers;
 
+import com.example.haziq.lead_managemanet.exceptions.RecordNotFound;
 import com.example.haziq.lead_managemanet.models.User;
 import com.example.haziq.lead_managemanet.repositories.UserRepository;
 import com.example.haziq.lead_managemanet.services.AuthenticationService;
@@ -25,32 +26,26 @@ public class SessionsController {
   @PostMapping(path = "/login")
   public User create(@RequestBody User user, HttpServletResponse response) {
     Optional<User> loggedUser = Optional.ofNullable(repository.findByEmail(user.getEmail()));
+    if (loggedUser.isEmpty())
+      throw new RecordNotFound("User not found");
     AuthenticationService service = new AuthenticationService(passwordEncoder);
-    if (loggedUser.isPresent()) {
-
     loggedUser.get().setAuth_token(UUID.randomUUID().toString());
     repository.save(loggedUser.get());
     boolean is_valid = service.isValidPassword(user.getPassword(), loggedUser.get().getPassword());
-    System.out.println(is_valid);
-//    if (is_valid == true) {
+      if (is_valid == false)
+        throw new RecordNotFound("Password invalid");
       Cookie cookie = new Cookie("HTTP-X-AUTH-TOKEN", loggedUser.get().getAuth_token());
       cookie.setHttpOnly(true);
       response.addCookie(cookie);
-      System.out.println("Here");
       return loggedUser.get();
-//    }
-//    Will handle exceptions in next PR
-//    return loggedUser;
-
-    }
-    return loggedUser.get();
   }
 
   @DeleteMapping("/api/logout")
-  public ResponseEntity destroy(@RequestParam String email, HttpServletResponse response) {
-    Optional<User> loggedUser = Optional.ofNullable(repository.findByEmail(email));
-    loggedUser.get().setAuth_token(null);
-    repository.save(loggedUser.get());
+  public ResponseEntity destroy(HttpServletResponse response,
+                                @CookieValue(name = "HTTP-X-AUTH-TOKEN", required = false) String authToken) {
+    User loggedUser = repository.findByAuthToken(authToken);
+    loggedUser.setAuth_token(null);
+    repository.save(loggedUser);
     Cookie cookie = new Cookie("HTTP-X-AUTH-TOKEN", null);
     cookie.setMaxAge(0);
     cookie.setSecure(true);
