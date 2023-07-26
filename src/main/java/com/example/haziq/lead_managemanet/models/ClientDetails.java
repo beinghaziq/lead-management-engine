@@ -26,13 +26,10 @@ public class ClientDetails {
   @UpdateTimestamp
   private LocalDateTime updated_at;
 
-  public ClientDetails(Integer id, String name, String contact_number, String address, LocalDateTime created_at, LocalDateTime updated_at) {
-    this.id = id;
+  public ClientDetails(String name, String contact_number, String address) {
     this.name = name;
     this.contact_number = contact_number;
     this.address = address;
-    this.created_at = created_at;
-    this.updated_at = updated_at;
   }
 
   public Integer getId() {

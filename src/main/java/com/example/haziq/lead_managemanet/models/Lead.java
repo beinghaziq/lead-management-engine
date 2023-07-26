@@ -12,7 +12,7 @@ public class Lead {
   @Id
   @GeneratedValue
   private Integer id;
-  @NotBlank(message = "Email is required")
+  @NotBlank(message = "name is required")
   private String name;
   @NotBlank(message = "Test Type is required")
   private String test_type;
@@ -27,17 +27,14 @@ public class Lead {
   @JoinColumn(name = "client_details_id", referencedColumnName = "id")
   private ClientDetails clientDetails;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "creator_id", referencedColumnName = "id")
   private User creator;
 
-  public Lead(Integer id, String name, String test_type, String platform_used, LocalDateTime created_at, LocalDateTime updated_at, ClientDetails clientDetails, User creator) {
-    this.id = id;
+  public Lead(String name, String test_type, String platform_used, ClientDetails clientDetails, User creator) {
     this.name = name;
     this.test_type = test_type;
     this.platform_used = platform_used;
-    this.created_at = created_at;
-    this.updated_at = updated_at;
     this.clientDetails = clientDetails;
     this.creator = creator;
   }
