@@ -37,7 +37,7 @@ public class SessionsController {
     loggedUser.get().setAuth_token(UUID.randomUUID().toString());
     repository.save(loggedUser.get());
 
-    Authentication authentication = new UsernamePasswordAuthenticationToken("admin", "password", Arrays.asList(new SimpleGrantedAuthority("ADMIN")));
+    Authentication authentication = new UsernamePasswordAuthenticationToken(loggedUser.get().getEmail(), loggedUser.get().getPassword(), Arrays.asList(new SimpleGrantedAuthority(loggedUser.get().getRollName())));
     SecurityContextHolder.getContext().setAuthentication(authentication);
     boolean is_valid = service.isValidPassword(user.getPassword(), loggedUser.get().getPassword());
       if (is_valid == false)
