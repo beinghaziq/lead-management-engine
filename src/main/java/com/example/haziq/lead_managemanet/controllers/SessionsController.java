@@ -8,9 +8,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,6 +36,9 @@ public class SessionsController {
     AuthenticationService service = new AuthenticationService(passwordEncoder);
     loggedUser.get().setAuth_token(UUID.randomUUID().toString());
     repository.save(loggedUser.get());
+
+    Authentication authentication = new UsernamePasswordAuthenticationToken("admin", "password", Arrays.asList(new SimpleGrantedAuthority("ADMIN")));
+    SecurityContextHolder.getContext().setAuthentication(authentication);
     boolean is_valid = service.isValidPassword(user.getPassword(), loggedUser.get().getPassword());
       if (is_valid == false)
         throw new RecordNotFound("Password invalid");
