@@ -143,6 +143,9 @@ public class User {
   public List<Phase> getProjects() {
     return projects;
   }
+  public String getRollName() {
+    return getRole().getName().toString();
+  }
 
   public void setProjects(List<Phase> projects) {
     this.projects = projects;
