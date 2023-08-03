@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -21,19 +22,26 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
   public CustomAuthenticationFilter(UserRepository userRepository) {
     this.repository = userRepository;
   }
+    private static final String[] excludedEndpoints = new String[] {"/login"};
 
   @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-      String token = extractTokenFromRequest(request);
-      if (token != null) {
-        User loggedUser = repository.findByAuthToken(token);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loggedUser.getEmail(), loggedUser.getPassword(), Arrays.asList(new SimpleGrantedAuthority(loggedUser.getRollName())));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-      }
-
-      filterChain.doFilter(request, response);
+    String token = extractTokenFromRequest(request);
+    if (token != null) {
+      User loggedUser = repository.findByAuthToken(token);
+      Authentication authentication = new UsernamePasswordAuthenticationToken(loggedUser.getEmail(), loggedUser.getPassword(), Arrays.asList(new SimpleGrantedAuthority(loggedUser.getRollName())));
+      SecurityContextHolder.getContext().setAuthentication(authentication);
     }
+
+    filterChain.doFilter(request, response);
+  }
+
+  @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    return Arrays.stream(excludedEndpoints)
+            .anyMatch(e -> new AntPathMatcher().match(e, request.getServletPath()));
+  }
 
     private String extractTokenFromRequest(HttpServletRequest request) {
       Cookie[] cookies = request.getCookies();
