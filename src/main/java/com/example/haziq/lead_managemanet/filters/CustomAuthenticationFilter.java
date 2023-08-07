@@ -28,12 +28,16 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
     String token = extractTokenFromRequest(request);
-    if (token != null) {
-      User loggedUser = repository.findByAuthToken(token);
-      Authentication authentication = new UsernamePasswordAuthenticationToken(loggedUser.getEmail(), loggedUser.getPassword(), Arrays.asList(new SimpleGrantedAuthority(loggedUser.getRollName())));
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+    if (token.isEmpty()) {
+      response.setContentType("application/json");
+      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      String jsonResponse = "{\"message\": \"Please login again to continue.\"}";
+      response.getWriter().write(jsonResponse);
+      return;
     }
-
+    User loggedUser = repository.findByAuthToken(token);
+    Authentication authentication = new UsernamePasswordAuthenticationToken(loggedUser.getEmail(), loggedUser.getPassword(), Arrays.asList(new SimpleGrantedAuthority(loggedUser.getRollName())));
+    SecurityContextHolder.getContext().setAuthentication(authentication);
     filterChain.doFilter(request, response);
   }
 
